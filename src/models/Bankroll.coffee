@@ -1,8 +1,10 @@
 class window.Bankroll extends Backbone.Model
 
   initialize: ->
-    @set 'amount', 1000
-    @set 'currentBet', 100
+    amount = window.localStorage['amount'] or 1000
+    currentBet = window.localStorage['bet'] or 100
+    @set 'amount', amount
+    @set 'currentBet', currentBet
 
   incrementAmount: ->
     @set('amount', @get('amount') + @get('currentBet'))

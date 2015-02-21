@@ -49,6 +49,8 @@ class window.AppView extends Backbone.View
 
 
     'click .next-round-button': ->
+      window.localStorage.amount = @model.get('bankroll').get('amount')
+      window.localStorage.currentBet = @model.get('bankroll').get('currentBet')
       window.location.reload()
 
   initialize: ->

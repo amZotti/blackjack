@@ -7,10 +7,20 @@ class window.HandView extends Backbone.View
     @collection.on 'add remove change', => @render()
     @render()
 
+  ended: ->
+   @collection.trigger 'flip' 
+
   render: ->
     @$el.children().detach()
     @$el.html @template @collection
     @$el.append @collection.map (card) ->
       new CardView(model: card).$el
-    @$('.score').text @collection.scores()[0]
-
+    score = @collection.scores()[0]
+    status = ""
+    if @collection.isOver21 score
+      @ended()
+      status = 'a fine loss!'
+    else if @collection.is21 score 
+      @collection.is21 score 
+      status = 'ah win win win nomatter wot'
+    @$('.score').text score + status

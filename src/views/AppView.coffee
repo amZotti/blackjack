@@ -7,16 +7,17 @@ class window.AppView extends Backbone.View
 
   resultsTemplate: _.template '
     <h1><%= message %></h1>
+    <button class="next-round-button">Next Round</button>
     <div class="player-hand-container"></div>
     <div class="dealer-hand-container"></div>
   '
 
   win: ->
-    resultTemplate = @resultsTemplate({message: 'Gameover! Player wins!'})
+    resultTemplate = @resultsTemplate message: 'Gameover! Player wins!'
     @renderResult resultTemplate
 
   lose: ->
-    resultTemplate = @resultsTemplate({message: 'Gameover! Dealer wins!'})
+    resultTemplate = @resultsTemplate message: 'Gameover! Dealer wins!'
     @renderResult resultTemplate
 
   events:
@@ -27,6 +28,9 @@ class window.AppView extends Backbone.View
     'click .stand-button': ->
       @playersHand.stand @dealersHand
       @playersHand.didPlayerWin @dealersHand
+
+    'click .next-round-button': ->
+      window.location.reload()
 
   initialize: ->
     @dealersHand = @model.get 'dealerHand'

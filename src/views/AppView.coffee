@@ -13,26 +13,26 @@ class window.AppView extends Backbone.View
 
   win: ->
     resultTemplate = @resultsTemplate({message: 'Gameover! Player wins!'})
-    @renderResult(resultTemplate)
+    @renderResult resultTemplate
 
   lose: ->
     resultTemplate = @resultsTemplate({message: 'Gameover! Dealer wins!'})
-    @renderResult(resultTemplate)
+    @renderResult resultTemplate
 
   events:
     'click .hit-button': ->
-      @playersHand.hit(@dealersHand)
-      @playersHand.didPlayerWin(@dealersHand)
+      @playersHand.hit @dealersHand
+      @playersHand.didPlayerWin @dealersHand
 
     'click .stand-button': ->
-      @playersHand.stand(@dealersHand)
-      @playersHand.didPlayerWin(@dealersHand)
+      @playersHand.stand @dealersHand
+      @playersHand.didPlayerWin @dealersHand
 
   initialize: ->
-    @dealersHand = @model.get('dealerHand')
-    @playersHand = @model.get('playerHand')
-    @dealersHand.on('win', @win, @)
-    @dealersHand.on('lose', @lose, @)
+    @dealersHand = @model.get 'dealerHand'
+    @playersHand = @model.get 'playerHand'
+    @dealersHand.on 'win', @win, @
+    @dealersHand.on 'lose', @lose, @
     @render()
 
   render: ->

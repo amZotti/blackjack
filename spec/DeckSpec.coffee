@@ -13,3 +13,4 @@ describe 'deck', ->
       assert.strictEqual deck.length, 50
       assert.strictEqual deck.last(), hand.hit()
       assert.strictEqual deck.length, 49
+     

@@ -1,6 +1,11 @@
 class window.AppView extends Backbone.View
   template: _.template '
-    <button class="hit-button">Hit</button> <button class="stand-button">Stand</button>
+    <button class="hit-button">Hit</button> 
+    <button class="stand-button">Stand</button> 
+    <button class="doubledown-button">DoubleDown</button>
+    <button class="split-button">Split</button>
+    
+
     <div class="player-hand-container"></div>
     <div class="dealer-hand-container"></div>
   '
@@ -29,6 +34,18 @@ class window.AppView extends Backbone.View
       @playersHand.stand @dealersHand
       @playersHand.didPlayerWin @dealersHand
 
+    'click .doubledown-button': ->
+      @playersHand.hit @dealersHand
+      @playersHand.stand @dealersHand
+      @playersHand.didPlayerWin @dealersHand
+
+    'click .split-button': ->
+     unless @playersHand.canSplit()
+       @renderSplit()
+     else
+       alert 'Cannot split without pairs'
+
+
     'click .next-round-button': ->
       window.location.reload()
 
@@ -51,3 +68,11 @@ class window.AppView extends Backbone.View
     @$('.player-hand-container').html new HandView(collection: @model.get 'playerHand').el
     @$('.dealer-hand-container').html new HandView(collection: @model.get 'dealerHand').el
 
+  renderSplit: ->
+    console.log @
+    @trigger 'split'
+    @$el.children().detach()
+    @$el.html @template()
+    @$('.player-hand-container').html new HandView(collection: @model.get 'playerHand').el
+    @$('.player-hand-container').html new HandView(collection: @model.get 'playerHand').el
+    @$('.dealer-hand-container').html new HandView(collection: @model.get 'dealerHand').el

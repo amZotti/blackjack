@@ -3,8 +3,13 @@ class window.Hand extends Backbone.Collection
 
   initialize: (array, @deck, @isDealer) ->
 
-  hit: () ->
-    @add(@deck.pop())
+  canSplit: ->
+    @at(0).get('value') is @at(1).get('value')
+
+  hit: ->
+    card = @deck.pop()
+    @add(card)
+    card
 
   stand: (dealersHand) ->
     while dealersHand.getHandScore() < 18

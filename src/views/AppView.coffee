@@ -1,10 +1,10 @@
 class window.AppView extends Backbone.View
   template: _.template '
-    <button class="hit-button">Hit</button> 
-    <button class="stand-button">Stand</button> 
+    <button class="hit-button">Hit</button>
+    <button class="stand-button">Stand</button>
     <button class="doubledown-button">DoubleDown</button>
     <button class="split-button">Split</button>
-    
+
 
     <div class="player-hand-container"></div>
     <div class="dealer-hand-container"></div>
@@ -35,9 +35,7 @@ class window.AppView extends Backbone.View
       @playersHand.didPlayerWin @dealersHand
 
     'click .doubledown-button': ->
-      @playersHand.hit @dealersHand
-      @playersHand.stand @dealersHand
-      @playersHand.didPlayerWin @dealersHand
+      @playersHand.doubledown @dealersHand
 
     'click .split-button': ->
      unless @playersHand.canSplit()

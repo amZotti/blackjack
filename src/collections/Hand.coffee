@@ -6,6 +6,11 @@ class window.Hand extends Backbone.Collection
   canSplit: ->
     @at(0).get('value') is @at(1).get('value')
 
+  doubledown: (dealersHand) ->
+    @hit dealersHand
+    @stand dealersHand
+    @didPlayerWin dealersHand
+
   hit: ->
     card = @deck.pop()
     @add(card)
@@ -17,6 +22,7 @@ class window.Hand extends Backbone.Collection
     if dealersHand.getHandScore() < 21
       dealersHand.at(0).flip()
       @settleDraw dealersHand
+    dealersHand
 
   getHandScore: ->
     score = 0
@@ -30,17 +36,21 @@ class window.Hand extends Backbone.Collection
     if playerScore > 21 or dealerScore is 21
       dealersHand.at(0).flip()
       dealersHand.trigger 'lose'
+      false
     else if dealerScore > 21 or playerScore is 21
       dealersHand.at(0).flip()
       dealersHand.trigger 'win'
+      true
 
   settleDraw: (dealersHand) ->
     playerScore = @getHandScore()
     dealerScore = dealersHand.getHandScore()
     if playerScore > dealerScore
       dealersHand.trigger 'win'
+      true
     else
       dealersHand.trigger 'lose'
+      false
 
   hasAce: -> @reduce (memo, card) ->
     memo or card.get 'value' is 1

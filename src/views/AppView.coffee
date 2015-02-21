@@ -8,6 +8,8 @@ class window.AppView extends Backbone.View
 
     <div class="player-hand-container"></div>
     <div class="dealer-hand-container"></div>
+    <div class="bet-container"></div>
+
   '
 
   resultsTemplate: _.template '
@@ -15,11 +17,13 @@ class window.AppView extends Backbone.View
     <button class="next-round-button">Next Round</button>
     <div class="player-hand-container"></div>
     <div class="dealer-hand-container"></div>
+    <div class="bet-container"></div>
   '
 
   win: ->
     resultTemplate = @resultsTemplate message: 'Gameover! Player wins!'
     @renderResult resultTemplate
+
 
   lose: ->
     resultTemplate = @resultsTemplate message: 'Gameover! Dealer wins!'
@@ -59,12 +63,15 @@ class window.AppView extends Backbone.View
     @$el.html @template()
     @$('.player-hand-container').html new HandView(collection: @model.get 'playerHand').el
     @$('.dealer-hand-container').html new HandView(collection: @model.get 'dealerHand').el
+    @$('.bet-container').html new BankrollView(model: @model.get 'bankroll').el
+
 
   renderResult: (resultTemplate) ->
     @$el.children().detach()
     @$el.html resultTemplate
     @$('.player-hand-container').html new HandView(collection: @model.get 'playerHand').el
     @$('.dealer-hand-container').html new HandView(collection: @model.get 'dealerHand').el
+    @$('.bet-container').html new BankrollView(model: @model.get 'bankroll').el
 
   renderSplit: ->
     console.log @
@@ -74,3 +81,4 @@ class window.AppView extends Backbone.View
     @$('.player-hand-container').html new HandView(collection: @model.get 'playerHand').el
     @$('.player-hand-container').html new HandView(collection: @model.get 'playerHand').el
     @$('.dealer-hand-container').html new HandView(collection: @model.get 'dealerHand').el
+    @$('.bet-container').html new BankrollView(model: @model.get 'bankroll').el

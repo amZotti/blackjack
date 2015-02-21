@@ -2,10 +2,14 @@ class window.Hand extends Backbone.Collection
   model: Card
 
   initialize: (array, @deck, @isDealer) ->
-    window.bbq = @
 
-  hit: ->
+  hit: () ->
     @add(@deck.pop())
+
+  stand: (dealersHand) ->
+    while dealersHand.getHandScore() < 18
+      dealersHand.hit()
+
 
   getHandScore: ->
     score = 0
@@ -13,12 +17,15 @@ class window.Hand extends Backbone.Collection
       score += card.get 'value'
     score
 
-  playerWon: (dealersHand) ->
+  didPlayerWin: (dealersHand) ->
     playerScore = @getHandScore()
     dealerScore = dealersHand.getHandScore()
-    if playerScore > 21 or dealerScore is 21 then return false
-    if dealerScore > 21 or playerScore is 21 then return true
-    if dealerScore > playerScore then return true else return false
+    if playerScore > 21 or dealerScore is 21
+      dealersHand.at(0).flip()
+      dealersHand.trigger('lose')
+    else if dealerScore > 21 or playerScore is 21
+      dealersHand.at(0).flip()
+      dealersHand.trigger('win')
 
   hasAce: -> @reduce (memo, card) ->
     memo or card.get('value') is 1

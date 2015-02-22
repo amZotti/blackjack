@@ -6,7 +6,6 @@ class window.App extends Backbone.Model
     @set 'playerHand', deck.dealPlayer()
     @set 'dealerHand', deck.dealDealer()
     @set 'bankroll' , bankroll = new Bankroll()
-    window.bbq = @
     playersHand = @get 'playerHand'
     playersHand.on 'split', (playersHand) ->
 
